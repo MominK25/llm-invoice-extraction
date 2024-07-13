@@ -1,5 +1,6 @@
 import streamlit as st
 from dotenv import load_dotenv
+from utils import *
 
 def main():
     load_dotenv()
@@ -14,7 +15,20 @@ def main():
 
     if submit:
         with st.spinner('Running'):
-            st.write("response")
+
+
+            df=create_docs(pdf)
+            
+            st.write(df.head())
+
+            data_as_csv = df.to_csv(index=False).encode("utf-8")
+            st.download_button(
+                "Download data as CSV",
+                data_as_csv,
+                "Invoice_extracted_data.csv",
+                "text/csv",
+                key="download-tools-csv",
+            )
 
         st.success("Run Successfully")
 
